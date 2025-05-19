@@ -10,21 +10,20 @@ export const Register = () => {
   const navigate = useNavigate();
 
  const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await axios.post("register", {
-      username,
-      password,
-    });
-
-    if (res.data.token) {
-      localStorage.setItem("token", res.data.token);
-      navigate("/");
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:5001/api/v1/register", {
+        username,
+        password,
+      });
+      if (res.data.token) {
+        localStorage.setItem("token", res.data.token);
+        navigate("/");
+      }
+    } catch (error) {
+      setError(error.response.data.message);
     }
-  } catch (error) {
-    setError(error.response?.data?.message || "Registration failed");
-  }
-};
+  };
   return (
     <div className="background">
       <form onSubmit={handleSubmit} className="form-card" autoComplete="off">
